@@ -1,3 +1,4 @@
 docker-compose up -d
-start "" "http://127.0.0.1:5000/"
-start "" "http://127.0.0.1:5333/"
+timeout /t 3
+start "" "http://127.0.0.1:7700/"
+start "" "http://127.0.0.1:7070/"
