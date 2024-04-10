@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.center-content {
+    display: inline-block;
+    text-align: left;
+}
+
+textarea {
+    width: 300px;
+    height: 100px;
+}
+
+.center-table {
+    margin: 0 auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 80%; /* Ширина таблицы */
+}
+
+table, th, td {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+}

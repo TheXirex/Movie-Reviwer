@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  postgres_db:
+      container_name: postgres_db
+      image: postgres:latest
+      ports:
+        - "5432:5432"
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=password
+        - POSTGRES_DB=movies
+      volumes:
+        - db_data:/var/lib/postgresql/data
+        - ./sql/create_table.sql:/docker-entrypoint-initdb.d/create_table.sql
+      networks:
+        - my_network
+  
+  flask_app:
+    container_name: flask_app
+    image: flask_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_URL=postgresql://postgres:password@postgres_db:5432/movies
+    depends_on:
+      - postgres_db
+    networks:
+      - my_network
+    volumes:
+      - app_data:/app/data
+  
+  pg_admin:
+    container_name: pg_admin
+    image: dpage/pgadmin4:8.5
+    ports:
+      - "5333:80"
+    depends_on:
+      - postgres_db
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=login@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=password
+    volumes:
+      - pg_data:/var/lib/pgadmin
+    networks:
+      - my_network
+    
+networks:
+  my_network:
+    driver: bridge
+
+volumes:
+  app_data:
+  db_data:
+  pg_data:
